@@ -1,5 +1,7 @@
 package com.apress.spring;
 
+import java.math.BigDecimal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -14,7 +16,10 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 
 import com.apress.spring.domain.Journal;
+import com.apress.spring.domain.Testjson;
 import com.apress.spring.repository.JournalRepository;
+import com.apress.spring.repository.TestjsonRepository;
+import com.apress.spring.service.JournalService;
 
 @SpringBootApplication
 public class SpringBootJournalApplication implements CommandLineRunner, ApplicationRunner {
@@ -30,6 +35,24 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 			repo.save(new Journal("Spring Boot in the Cloud", "Spring Boot using Cloud Foundry", "03/01/2016"));
 		};
 	}
+	
+	@Bean
+	InitializingBean initJsonData(TestjsonRepository repo) {
+		return () -> {
+			repo.save(new Testjson("{\"name\":\"吴cg\",\"age\":130}", new BigDecimal(3.1415926)));
+			repo.save(new Testjson("[1,2,3,4,5,987]"));
+			repo.save(new Testjson("{}"));
+			repo.save(new Testjson("[]", BigDecimal.TEN));
+			repo.save(new Testjson(null));
+			repo.save(new Testjson("", BigDecimal.ONE));
+		};
+	}
+	
+	@Autowired
+	JournalService service;
+	
+	@Autowired
+	TestjsonRepository jsonRepo;
 
 	public static void main(String[] args) {
 		// 法1：
@@ -79,6 +102,14 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		log.info("Accessing the Info bean: " + info);
 		for (String arg : args)
 			log.info(arg);
+		
+		log.info("@@ Inserting Data....");
+		service.insertData();
+		log.info("@@ findAll() call...");
+		service.findAll().forEach(entry -> log.info(entry.toString()));
+		
+		log.info("读取test_json测试:");
+		jsonRepo.findAll().forEach(e -> log.info(e.toString()));
 	}
 }
 

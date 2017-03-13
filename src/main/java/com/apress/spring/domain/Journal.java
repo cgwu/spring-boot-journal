@@ -10,11 +10,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
+import com.apress.spring.util.JsonDateSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 public class Journal {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String title;
 	private Date created;
 	private String summary;
@@ -29,6 +34,13 @@ public class Journal {
 		this.title = title;
 		this.summary = summary;
 		this.created = format.parse(date);
+	}
+
+	public Journal(Long id, String title, String summary, Date date) {
+		this.id = id;
+		this.title = title;
+		this.summary = summary;
+		this.created = date;
 	}
 
 	public Long getId() {
@@ -47,6 +59,7 @@ public class Journal {
 		this.title = title;
 	}
 
+	@JsonSerialize(using=JsonDateSerializer.class)
 	public Date getCreated() {
 		return created;
 	}
@@ -63,6 +76,7 @@ public class Journal {
 		this.summary = summary;
 	}
 
+	@JsonIgnore
 	public String getCreatedAsShort() {
 		return format.format(created);
 	}

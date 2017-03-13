@@ -20,6 +20,7 @@ public class JournalController {
 
 	@RequestMapping("/")
 	public String index(Model model) {
+//		org.hibernate.dialect.PostgreSQLDialect;
 		model.addAttribute("journal", repo.findAll());
 		return "index";
 	}
