@@ -1,10 +1,7 @@
 package com.apress.spring;
 
-import java.math.BigDecimal;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -15,16 +12,33 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 
-import com.apress.spring.domain.Journal;
-import com.apress.spring.domain.Testjson;
-import com.apress.spring.repository.JournalRepository;
 import com.apress.spring.repository.TestjsonRepository;
 import com.apress.spring.service.JournalService;
+
+
 
 @SpringBootApplication
 public class SpringBootJournalApplication implements CommandLineRunner, ApplicationRunner {
 	private static final Logger log = LoggerFactory.getLogger(SpringBootJournalApplication.class);
 	
+	/*
+	// 设置SessionTrackingMode未起作用.
+	@Bean
+	public ServletContextInitializer servletContextInitializer() {
+		return new ServletContextInitializer() {
+			@Override
+			public void onStartup(ServletContext servletContext) throws ServletException {
+				servletContext.setSessionTrackingModes(Collections.singleton(SessionTrackingMode.URL));
+				SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
+				sessionCookieConfig.setName("xid");
+				sessionCookieConfig.setHttpOnly(true);
+			}
+		};
+	}
+	*/
+	
+	/*
+	//初始数据
 	@Bean
 	InitializingBean saveData(JournalRepository repo) {
 		return () -> {
@@ -47,6 +61,20 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 			repo.save(new Testjson("", BigDecimal.ONE));
 		};
 	}
+	*/
+	
+	/*
+	// 没起作用：
+	@Bean
+	public EmbeddedServletContainerFactory servletContainer() {
+//	    TomcatEmbeddedServletContainerFactory factory = new TomcatEmbeddedServletContainerFactory();
+		UndertowEmbeddedServletContainerFactory factory = new UndertowEmbeddedServletContainerFactory();
+	    factory.setPort(9000);
+	    factory.setSessionTimeout(10, TimeUnit.MINUTES);
+	    factory.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/notfound.html"));
+	    return factory;
+	}
+	*/
 	
 	@Autowired
 	JournalService service;
@@ -104,7 +132,7 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 			log.info(arg);
 		
 		log.info("@@ Inserting Data....");
-		service.insertData();
+//		service.insertData();
 		log.info("@@ findAll() call...");
 		service.findAll().forEach(entry -> log.info(entry.toString()));
 		
