@@ -2,6 +2,7 @@ package com.apress.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 
+import com.apress.spring.rabbitmq.Producer;
 import com.apress.spring.repository.TestjsonRepository;
 import com.apress.spring.service.JournalService;
 
@@ -124,6 +126,21 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		args.getNonOptionArgs().forEach(file -> log.info(file));
 	}
 
+	@Value("${myqueue}")
+	String queue;
+	
+	@Bean
+	Queue queue(){
+		return new Queue(queue,false);
+	}
+	
+	@Bean
+	CommandLineRunner sender(Producer producer) {
+		return args -> {
+			producer.sendTo(queue, "Hello World");
+		};
+	}
+	
 	@Override
 	public void run(String... args) throws Exception {
 		log.info("## > CommandLineRunner Implementation...");
@@ -138,6 +155,9 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		
 		log.info("读取test_json测试:");
 		jsonRepo.findAll().forEach(e -> log.info(e.toString()));
+		
+		log.info("测试RabbitMQ:");
+		
 	}
 }
 

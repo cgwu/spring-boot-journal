@@ -6,13 +6,16 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apress.spring.domain.Journal;
+import com.apress.spring.rabbitmq.Producer;
 import com.apress.spring.repository.JournalRepository;
 
 @Controller
@@ -58,5 +61,18 @@ public class JournalController {
 //	public @ResponseBody List<Journal> getJournalXml() {
 //		return repo.findAll();
 //	}
+	
+	@Value("${myqueue}")
+	String queue;
+
+	@Autowired
+	Producer producer;
+	
+	@RequestMapping("/msg")
+	@ResponseBody
+	public String sendMessage( @RequestParam(value = "msg") String msg) {
+		producer.sendTo(queue, "消息封装[" + msg + "]");
+		return "发送消息成功";
+	}
 	
 }
