@@ -1,3 +1,4 @@
+/*
 package com.apress.spring;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -25,3 +26,4 @@ public class SpringBootRedisApplication {
 	}
 
 }
+*/

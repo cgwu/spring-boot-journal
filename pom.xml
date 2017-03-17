@@ -129,6 +129,12 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<fork>true</fork><!-- 如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
+					<!-- 
+					$ ln -s /opt/spring-boot-journal-0.0.1-SNAPSHOT.war /etc/init.d/journal
+					Then you can start your application with the following:
+					$ service journal start
+					 -->
+					<executable>true</executable>
 				</configuration>
 			</plugin>
 		</plugins>

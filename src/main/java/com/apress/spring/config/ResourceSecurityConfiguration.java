@@ -1,3 +1,4 @@
+/*
 package com.apress.spring.config;
 
 import org.springframework.context.annotation.Configuration;
@@ -21,3 +22,4 @@ public class ResourceSecurityConfiguration extends WebSecurityConfigurerAdapter 
 	}
 	
 }
+*/

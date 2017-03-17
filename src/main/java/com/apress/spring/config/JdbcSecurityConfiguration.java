@@ -1,3 +1,4 @@
+/*
 package com.apress.spring.config;
 
 import java.sql.ResultSet;
@@ -40,3 +41,4 @@ public class JdbcSecurityConfiguration extends GlobalAuthenticationConfigurerAda
 		auth.userDetailsService(this.userDetailsService);
 	}
 }
+*/
