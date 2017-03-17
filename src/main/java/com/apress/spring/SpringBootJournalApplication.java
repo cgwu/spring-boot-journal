@@ -1,5 +1,7 @@
 package com.apress.spring;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
@@ -12,6 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.apress.spring.rabbitmq.Producer;
 import com.apress.spring.repository.TestjsonRepository;
@@ -19,6 +23,7 @@ import com.apress.spring.service.JournalService;
 
 
 
+@EnableScheduling
 @SpringBootApplication
 public class SpringBootJournalApplication implements CommandLineRunner, ApplicationRunner {
 	private static final Logger log = LoggerFactory.getLogger(SpringBootJournalApplication.class);
@@ -134,12 +139,28 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		return new Queue(queue,false);
 	}
 	
+	@Autowired 
+	Producer producer;
+	
 	@Bean
 	CommandLineRunner sender(Producer producer) {
 		return args -> {
 			producer.sendTo(queue, "Hello World");
 		};
 	}
+	
+	/*
+	 @EnableScheduling. This annotation will tell (via auto-configuration) the
+	Spring container that the org.springframework.scheduling.annotation.
+	ScheduleAnnotationBeanPostProcessor class needs to be created. It will register all
+	the methods annotated with @Scheduled to be invoked by a org.springframework.
+	scheduling.TaskScheduler interface implementation according to the fixedRate,
+	fixedDelay, or cron expression in the @Scheduled annotation.
+	*/
+//	@Scheduled(fixedDelay = 500L)
+//	public void sendMessages() {
+//		producer.sendTo(queue, "Hello World at " + new Date());
+//	}
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -156,9 +177,19 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		log.info("读取test_json测试:");
 		jsonRepo.findAll().forEach(e -> log.info(e.toString()));
 		
-		log.info("测试RabbitMQ:");
-		
 	}
+	
+	
+	@Value("${topic}")
+	String topic;
+
+	@Bean
+	CommandLineRunner sendRedisMessage(com.apress.spring.redis.Producer producer) {
+		return args -> {
+			producer.sendTo(topic, "Redis消息:Spring Boot rocks with Redis messaging!");
+		};
+	}
+	
 }
 
 /*
