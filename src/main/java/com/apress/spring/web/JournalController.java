@@ -75,4 +75,10 @@ public class JournalController {
 		return "发送消息成功";
 	}
 	
+	@RequestMapping("/foo")
+	@ResponseBody
+	public String foo(){
+		return "foo from @Controller!中文";
+	}
+	
 }
