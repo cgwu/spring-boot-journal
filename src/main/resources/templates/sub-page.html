@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorator="share/layout">
+<html layout:decorate="~{layouts/common}">
   <head>
     <title>子页标题</title>
   </head>
@@ -7,6 +7,8 @@
     <!-- /* Content of this page will be decorated by the elements of layout.html (task/layout) */ -->
     <div layout:fragment="content" style='border:solid 1px red;'>
       <h4>这里是subpage内容</h4>
+      <h4 th:text="#{message.hello}">hi</h4>
+      <h4 th:text="#{const.true}">t</h4>
     </div>
   </body>
 </html>

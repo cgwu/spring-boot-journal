@@ -4,13 +4,14 @@
   	<meta charset="UTF-8" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <!--/*  Each token will be replaced by their respective titles in the resulting page. */-->
-    <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">Layout标题</title>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">《Layout标题!》</title>
     <script th:src="@{/js/jquery-1.11.3.min.js}"></script>
   </head>
   <body>
     <!--/* Standard layout can be mixed with Layout Dialect */-->
     <div th:replace="fragments/header :: header"></div>
     <div class="container">
+    <hr>
       <div layout:fragment="content">
         <!-- ============================================================================ -->
         <!-- This content is only used for static prototyping purposes (natural templates)-->
@@ -26,6 +27,7 @@
           Phasellus et placerat elit.
         </p>
       </div>
+      <hr>
       <div th:replace="fragments/footer :: footer"></div>
     </div>
   </body>

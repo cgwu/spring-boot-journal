@@ -1,6 +1,7 @@
 package com.apress.spring;
 
 import java.util.Date;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import com.apress.spring.rabbitmq.Producer;
 import com.apress.spring.repository.TestjsonRepository;
@@ -28,6 +32,15 @@ import com.apress.spring.service.JournalService;
 public class SpringBootJournalApplication implements CommandLineRunner, ApplicationRunner {
 	private static final Logger log = LoggerFactory.getLogger(SpringBootJournalApplication.class);
 	
+	@Bean
+	public LocaleResolver localeResolver() {
+//		new AcceptHeaderLocaleResolver().getDefaultLocale()
+		CookieLocaleResolver resolver = new CookieLocaleResolver();
+		resolver.setDefaultLocale(Locale.CHINA);		// 设置默认区域.
+		resolver.setCookieMaxAge(3600);		// 设置cookie有效期(seconds).
+		return resolver;
+	}
+
 	/*
 	// 设置SessionTrackingMode未起作用.
 	@Bean
@@ -105,7 +118,7 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		*/
 		// 法3：
 		new SpringApplicationBuilder()
-		.bannerMode(Banner.Mode.OFF)
+//		.bannerMode(Banner.Mode.OFF)		// 禁止显示Banner信息
 		.sources(SpringBootJournalApplication.class)
 //		.logStartupInfo(false)	// getter方法来生成 default: true
 //		.profiles("prod","cloud")

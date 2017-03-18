@@ -2,17 +2,25 @@ package com.apress.spring.web;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.apress.spring.domain.Journal;
 import com.apress.spring.rabbitmq.Producer;
@@ -20,6 +28,7 @@ import com.apress.spring.repository.JournalRepository;
 
 @Controller
 public class JournalController {
+	private static final Logger log = LoggerFactory.getLogger(JournalController.class);
 
 	@Autowired
 	JournalRepository repo;
@@ -92,7 +101,18 @@ public class JournalController {
 	}
 
 	@RequestMapping("/subpage")
-	public String subpage() {
+	public String subpage(HttpServletRequest request) {
+		Locale l = RequestContextUtils.getLocale(request);
+		log.info("LocaleContextHolder.getLocale:{}, RequestContextUtils.getLocale的Local:{}, Request.Locale:{}",
+				LocaleContextHolder.getLocale(), l, request.getLocale());
+		/*
+		// 没有用
+		List<Locale> locals = new AcceptHeaderLocaleResolver().getSupportedLocales();
+		log.info("Locals个数:{}", locals.size());
+		for (Locale locale : locals) {
+			log.info("支持的Local:{}", locale);
+		}
+		*/
 		return "sub-page";
 	}
 
