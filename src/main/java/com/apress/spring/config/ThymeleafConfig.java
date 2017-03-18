@@ -1,3 +1,7 @@
+/*
+ * 配置thymeleaf3,没有该类也能正常运行，未验证是否有作用。
+ * */
+/*
 package com.apress.spring.config;
 
 import org.springframework.context.ApplicationContext;
@@ -15,9 +19,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 
-/*
- * 配置thymeleaf3,没有该类也能正常运行，未验证是否有作用。
- * */
+
 @Configuration
 //@EnableWebMvc
 // @ComponentScan("com.thymeleafexamples")
@@ -53,3 +55,5 @@ public class ThymeleafConfig extends WebMvcConfigurerAdapter implements Applicat
 		return resolver;
 	}
 }
+*/
+
