@@ -81,4 +81,8 @@ public class JournalController {
 		return "foo from @Controller!中文";
 	}
 	
+	@RequestMapping("/thymeleaf-demo")
+	public String thymeleafDemo(){
+		return "thymeleaf-demo";
+	}
 }
