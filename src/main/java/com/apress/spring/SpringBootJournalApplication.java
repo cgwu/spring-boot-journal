@@ -34,10 +34,10 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 	
 	@Bean
 	public LocaleResolver localeResolver() {
-//		new AcceptHeaderLocaleResolver().getDefaultLocale()
 		CookieLocaleResolver resolver = new CookieLocaleResolver();
+		resolver.setCookieName("lang");
 		resolver.setDefaultLocale(Locale.CHINA);		// 设置默认区域.
-		resolver.setCookieMaxAge(3600);		// 设置cookie有效期(seconds).
+		resolver.setCookieMaxAge(60*60*24);		// 设置cookie有效期(seconds).
 		return resolver;
 	}
 
