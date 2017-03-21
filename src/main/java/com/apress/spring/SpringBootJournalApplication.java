@@ -5,6 +5,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.xml.ws.Endpoint;
+
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.spring.SpringBus;
+import org.apache.cxf.jaxws.EndpointImpl;
+import org.apache.cxf.transport.servlet.CXFServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
@@ -17,6 +23,8 @@ import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,14 +37,48 @@ import com.apress.spring.rabbitmq.Producer;
 import com.apress.spring.repository.Testjson2Repository;
 import com.apress.spring.repository.TestjsonRepository;
 import com.apress.spring.service.JournalService;
-
+import com.apress.spring.service.LayoutImpl;
 
 
 @EnableScheduling
 @SpringBootApplication
-public class SpringBootJournalApplication implements CommandLineRunner, ApplicationRunner {
+public class SpringBootJournalApplication extends SpringBootServletInitializer 
+		implements CommandLineRunner, ApplicationRunner {
 	private static final Logger log = LoggerFactory.getLogger(SpringBootJournalApplication.class);
 	
+	//可在在servlet中部署的war包  
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {  
+        return application.sources(SpringBootJournalApplication.class);  
+    }
+    
+    /***********  CXF Config Begin ************/
+    /*
+    @Bean
+    public ServletRegistrationBean dispatcherServlet() {
+        return new ServletRegistrationBean(new CXFServlet(), "/soap/*");
+    }
+	@Bean(name = Bus.DEFAULT_BUS_ID)
+	public SpringBus springBus() {
+		return new SpringBus();
+	}
+	@Bean
+	public LayoutImpl layout() {
+		return new LayoutImpl();
+	}
+	*/
+	@Autowired
+	private Bus bus;
+	@Bean
+	public Endpoint endpoint() {
+//		EndpointImpl endpoint = new EndpointImpl(springBus(), layout());
+		EndpointImpl endpoint = new EndpointImpl(bus, new LayoutImpl());
+		endpoint.publish("/layout");
+//		 endpoint.getInInterceptors().add(new AuthInterceptor());
+		return endpoint;
+	}
+	/**********  CXF Config End *************/
+    
 	@Bean
 	public LocaleResolver localeResolver() {
 		CookieLocaleResolver resolver = new CookieLocaleResolver();

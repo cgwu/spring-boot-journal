@@ -16,7 +16,8 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<!-- <version>2.0.0.BUILD-SNAPSHOT</version> -->
 		<!-- <version>1.5.3.BUILD-SNAPSHOT</version> -->
-		<version>1.5.2.RELEASE</version>
+		<!-- <version>1.5.2.RELEASE</version> -->
+		<version>1.4.5.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -33,12 +34,6 @@
 	</properties>
 	
 	<dependencies>
-		<!-- 仅toString反射用到: https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.5</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
@@ -87,7 +82,18 @@
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web-services</artifactId>
+		</dependency>
 		-->
+		<!-- 替换spring-boot-starter-web-services 
+		https://mvnrepository.com/artifact/org.apache.cxf/cxf-spring-boot-starter-jaxws -->
+		<dependency>
+		    <groupId>org.apache.cxf</groupId>
+		    <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+		    <version>3.1.10</version>
+		</dependency>
 		<!-- spring-security会影响url jsessionid. -->
 		<!-- 
 		<dependency>
@@ -107,6 +113,13 @@
            <scope>provided</scope>
        </dependency>
 		-->
+		
+		<!-- 仅toString反射用到: https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -120,13 +133,12 @@
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
 		</dependency>
-		
 		<!-- jdk8:<version>9.4.1212</version> https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 		    <groupId>org.postgresql</groupId>
 		    <artifactId>postgresql</artifactId>
-		    <version>42.0.0</version>
-		    <scope>runtime</scope>
+		    <!-- <version>42.0.0</version>
+		    <scope>runtime</scope> -->
 		</dependency>
 		<!--
 		<dependency>

@@ -1,7 +1,5 @@
 package com.apress.spring;
 
-import static org.junit.Assert.*;
-
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -13,6 +11,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.apress.spring.domain.Testjson2;
 import com.apress.spring.repository.Testjson2Repository;
+
+// ERROR
+//@RunWith(SpringRunner.class)
+//@ContextConfiguration(classes=SpringBootJournalApplication.class)
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
