@@ -2,6 +2,7 @@ package com.apress.spring.util;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
@@ -81,7 +82,7 @@ public class StringJsonUserType implements UserType {
 	 * @throws java.sql.SQLException
 	 */
 	@Override
-	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
+	public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner)
 			throws HibernateException, SQLException {
 		if (rs.getString(names[0]) == null) {
 			return null;
@@ -106,7 +107,7 @@ public class StringJsonUserType implements UserType {
 	 * @throws java.sql.SQLException
 	 */
 	@Override
-	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
+	public void nullSafeSet(PreparedStatement st, Object value, int index, SharedSessionContractImplementor session)
 			throws HibernateException, SQLException {
 		if (value == null || (value instanceof String && "".equals(value))) {
 			st.setNull(index, Types.OTHER);
@@ -193,4 +194,18 @@ public class StringJsonUserType implements UserType {
 	public Object replace(Object original, Object target, Object owner) throws HibernateException {
 		return original;
 	}
+
+//	@Override
+//	public Object nullSafeGet(ResultSet arg0, String[] arg1, SharedSessionContractImplementor arg2, Object arg3)
+//			throws HibernateException, SQLException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void nullSafeSet(PreparedStatement arg0, Object arg1, int arg2, SharedSessionContractImplementor arg3)
+//			throws HibernateException, SQLException {
+//		// TODO Auto-generated method stub
+//		
+//	}
 }

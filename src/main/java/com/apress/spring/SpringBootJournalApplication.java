@@ -1,11 +1,14 @@
 package com.apress.spring;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Queue;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
@@ -21,7 +24,9 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
+import com.apress.spring.domain.Testjson2;
 import com.apress.spring.rabbitmq.Producer;
+import com.apress.spring.repository.Testjson2Repository;
 import com.apress.spring.repository.TestjsonRepository;
 import com.apress.spring.service.JournalService;
 
@@ -81,6 +86,19 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 			repo.save(new Testjson("", BigDecimal.ONE));
 		};
 	}
+	
+	@Bean
+	InitializingBean initJsonData2(Testjson2Repository repo) {
+		return () -> {
+			repo.save(new Testjson2("{\"name\":\"吴cg\",\"age\":130}", new BigDecimal(3.1415926),
+					Arrays.asList("好答案", "aa", "BB", "c#")));
+			repo.save(new Testjson2("[1,2,3,4,5,987]", new BigDecimal(12345), Arrays.asList("好答案1")));
+			repo.save(new Testjson2("{}", new BigDecimal(12)));
+			repo.save(new Testjson2("[]", BigDecimal.TEN, Arrays.asList("好答案", "aa", "BB", "c#!@#$")));
+			repo.save(new Testjson2(null));
+//			repo.save(new Testjson2("", BigDecimal.ONE));	// ERROR:不允许为空串
+		};
+	}
 	*/
 	
 	/*
@@ -101,6 +119,9 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 	
 	@Autowired
 	TestjsonRepository jsonRepo;
+	
+	@Autowired
+	Testjson2Repository json2Repo;
 
 	public static void main(String[] args) {
 		// 法1：
@@ -190,6 +211,8 @@ public class SpringBootJournalApplication implements CommandLineRunner, Applicat
 		log.info("读取test_json测试:");
 		jsonRepo.findAll().forEach(e -> log.info(e.toString()));
 		
+		log.info("读取testjson2测试:");
+		json2Repo.findAll().forEach(e -> log.info(e.toString()));
 	}
 	
 	

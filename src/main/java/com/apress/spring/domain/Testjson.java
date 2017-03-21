@@ -16,13 +16,14 @@ import com.apress.spring.util.StringJsonUserType;
 
 
 /*
+ * 使用hibernate类型转换
  * SQL script:
  * testdb=# create table testjson(id serial, data jsonb, remain_balance decimal(19,6));
  * */
 
 @Entity
 // 指定表名
-// @Table(name="test_json2")
+// @Table(name="testjson_another_name")
 @TypeDefs({ @TypeDef(name = "StringJsonObject", typeClass = StringJsonUserType.class) })
 public class Testjson {
 
