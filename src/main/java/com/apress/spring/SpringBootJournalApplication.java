@@ -54,19 +54,6 @@ public class SpringBootJournalApplication extends SpringBootServletInitializer
     
     /***********  CXF Config Begin ************/
     /*
-    @Bean
-    public ServletRegistrationBean dispatcherServlet() {
-        return new ServletRegistrationBean(new CXFServlet(), "/soap/*");
-    }
-	@Bean(name = Bus.DEFAULT_BUS_ID)
-	public SpringBus springBus() {
-		return new SpringBus();
-	}
-	@Bean
-	public LayoutImpl layout() {
-		return new LayoutImpl();
-	}
-	*/
 	@Autowired
 	private Bus bus;
 	@Bean
@@ -77,6 +64,7 @@ public class SpringBootJournalApplication extends SpringBootServletInitializer
 //		 endpoint.getInInterceptors().add(new AuthInterceptor());
 		return endpoint;
 	}
+	*/
 	/**********  CXF Config End *************/
     
 	@Bean
