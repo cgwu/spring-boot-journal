@@ -1,48 +1,21 @@
 <!DOCTYPE html>
-<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8"></meta>
-<meta http-equiv="Content-Type" content="text/html"></meta>
-<title>Spring Boot Journal - LOGIN</title>
-<link rel="stylesheet" type="text/css" media="all" href="css/bootstrap.min.css"></link>
-<link rel="stylesheet" type="text/css" media="all" href="css/styles.css"></link>
-<script th:inline="javascript">  
-    var apiUrl = /*[[@{/journal}]]*/;	// api URL  
-</script> 
-</head>
-<body>
-	<div class="container">
-		<h1>Spring Boot Journal   
-		<a th:href="@{/index}">INDEX</a> &nbsp;
-		<a th:href="@{/thymeleaf-demo}">thymeleaf-demo</a>
-		<a th:href="@{/subpage}">Sub Page</a>
-		</h1>
-		<ul class="timeline">
-			<div th:each="entry,status : ${journal}">
-				<li th:attr="class=${status.odd}?'timeline-inverted':''">
-					<div class="tl-circ"></div>
-					<div class="timeline-panel">
-						<div class="tl-heading">
-							<h4>
-								<span th:text="${entry.title}">TITLE</span>
-							</h4>
-							<p>
-								<small class="text-muted"><i
-									class="glyphicon glyphicon-time"></i> <span
-									th:text="${entry.createdAsShort}">CREATED</span></small>
-							</p>
-						</div>
-
-						<div class="tl-body">
-							<p>
-								<span th:text="${entry.summary}">SUMMARY</span>
-							</p>
-						</div>
-					</div>
-				</li>
-			</div>
-		</ul>
-	</div>
-
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Login page</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}" />
+	</head>
+    <body>
+        <h1>Login page</h1>
+        <p>Example user: user / password</p>
+        <p th:if="${loginError}" class="error">Wrong user or password</p>
+        <form th:action="@{/login}" method="post">
+            <label for="username">Username</label>:
+            <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+            <label for="password">Password</label>:
+            <input type="password" id="password" name="password" /> <br />
+            <input type="submit" value="Log in" />
+        </form>
+        <p><a href="/index" th:href="@{/default}">Back to home page</a></p>
+    </body>
 </html>

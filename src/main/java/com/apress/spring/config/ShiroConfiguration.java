@@ -1,4 +1,5 @@
 /*
+ * 已经使用Spring Security.
  * 参考： http://blog.csdn.net/qiuqiupeng/article/details/38984779
  */
 

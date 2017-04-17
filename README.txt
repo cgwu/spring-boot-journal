@@ -17,7 +17,7 @@ DROP CAST IF EXISTS (varchar as jsonb);
 CREATE CAST (varchar AS jsonb) WITH FUNCTION jsonb_in_varchar(varchar) AS IMPLICIT;
 
 
-使用到的框架：
+框架(已经使用Spring Security.)：
 http://shiro.apache.org/
 Apache Shiro™ is a powerful and easy-to-use Java security framework that performs authentication, 
 authorization, cryptography, and session management. With Shiro’s easy-to-understand API, 

@@ -95,11 +95,17 @@
 		    <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
 		    <version>3.1.10</version>
 		</dependency>
-		<!-- spring-security会影响url jsessionid. -->
-		<!-- -->
+		
+		<!-- spring-security会影响url jsessionid,需要设置disable-url-rewriting="false". -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity4 -->
+		<dependency>
+		    <groupId>org.thymeleaf.extras</groupId>
+		    <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+		    <version>3.0.2.RELEASE</version>
 		</dependency>
 		 
 		<!-- https://mvnrepository.com/artifact/org.apache.shiro/shiro-core -->

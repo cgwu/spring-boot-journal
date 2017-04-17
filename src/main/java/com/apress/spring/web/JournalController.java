@@ -33,11 +33,14 @@ public class JournalController {
 	@Autowired
 	JournalRepository repo;
 
+	/*
 	@RequestMapping("/")
 	public String home() {
-		return "redirect:/login";
+		return "redirect:/index";
 	}
+	*/
 
+	/*
 	@RequestMapping("/login")
 	public String login(Model model, HttpSession session) {
 		// org.hibernate.dialect.PostgreSQLDialect;
@@ -45,6 +48,7 @@ public class JournalController {
 		session.setAttribute("now", new Date());
 		return "login";
 	}
+	*/
 
 	@RequestMapping("/index")
 	public String index(Model model, HttpSession session) {
@@ -103,7 +107,7 @@ public class JournalController {
 	@RequestMapping("/subpage")
 	public String subpage(HttpServletRequest request) {
 		Locale l = RequestContextUtils.getLocale(request);
-		log.info("LocaleContextHolder.getLocale:{}, RequestContextUtils.getLocale的Local:{}, Request.Locale:{}",
+		log.info("Localhttps://dzone.com/articles/spring-security-in-mvc-4-using-spring-booteContextHolder.getLocale:{}, RequestContextUtils.getLocale的Local:{}, Request.Locale:{}",
 				LocaleContextHolder.getLocale(), l, request.getLocale());
 		/*
 		// 没有用
