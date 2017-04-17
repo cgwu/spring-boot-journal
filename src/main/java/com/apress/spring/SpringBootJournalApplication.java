@@ -21,6 +21,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -28,6 +29,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -156,18 +158,22 @@ public class SpringBootJournalApplication extends SpringBootServletInitializer
 	public static void main(String[] args) {
 		// 法1：
 //		SpringApplication.run(SpringBootJournalApplication.class, args);
+		
 		// 法2：
-		/*
 		SpringApplication app = new SpringApplication(SpringBootJournalApplication.class);
-		app.setBanner(new Banner(){
-
+//		app.addListeners(...);
+		/*
+		app.setBanner(new Banner() {
 			@Override
 			public void printBanner(Environment arg0, Class<?> arg1, PrintStream out) {
 				out.print("\n\n这是我的自定义BANNER!\n\n");
-			}});
-		app.run(args);
+			}
+		});
 		*/
+		app.run(args);
+		
 		// 法3：
+		/*
 		new SpringApplicationBuilder()
 //		.bannerMode(Banner.Mode.OFF)		// 禁止显示Banner信息
 		.sources(SpringBootJournalApplication.class)
@@ -175,6 +181,7 @@ public class SpringBootJournalApplication extends SpringBootServletInitializer
 //		.profiles("prod","cloud")
 //		.web(false)
 		.run(args);
+		*/
 	}
 	
 	@Bean
