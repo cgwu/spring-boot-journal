@@ -30,7 +30,11 @@ public class JdbcSecurityConfiguration extends GlobalAuthenticationConfigurerAda
 				rs.getBoolean("ENABLED"), 
 				rs.getBoolean("ENABLED"),
 				rs.getBoolean("ENABLED"), 
-				AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN"));
+//				AuthorityUtils.createAuthorityList("ROLE_USER", "ROLE_ADMIN")
+				"admin".equals(rs.getString("ACCOUNT_NAME")) ?
+						AuthorityUtils.createAuthorityList("ROLE_ADMIN") :
+						AuthorityUtils.createAuthorityList("ROLE_USER")
+				);
 		return username -> jdbcTemplate.queryForObject(
 				"SELECT * from ACCOUNT where ACCOUNT_NAME = ?", userRowMapper, username);
 	}

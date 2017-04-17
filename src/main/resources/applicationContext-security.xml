@@ -10,7 +10,8 @@
 	<security:http pattern="/member_login*" security="none"/>
 	-->
 	
-	<security:http auto-config="false" use-expressions="false" disable-url-rewriting="false">
+	<security:http auto-config="false" use-expressions="false" disable-url-rewriting="false"
+		access-decision-manager-ref="accessDecisionManager" >
 		<security:intercept-url pattern="/foo/hi" access="ROLE_ADMIN"/>
 		<security:intercept-url pattern="/user/**" access="ROLE_USER"/>
 		<!-- <security:intercept-url pattern="/**" access="ROLE_USER"/>  -->
@@ -34,5 +35,28 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
-	 
+	<bean id="accessDecisionManager"
+		class="org.springframework.security.access.vote.AffirmativeBased">
+		<constructor-arg>
+			<list>
+				<ref bean="roleVoter" />
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="roleVoter"
+		class="org.springframework.security.access.vote.RoleHierarchyVoter">
+		<constructor-arg>
+			<bean
+				class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+				<property name="hierarchy">
+					<value>
+						ROLE_ADMIN > ROLE_USER
+						ROLE_USER > ROLE_GUEST
+					</value>
+				</property>
+			</bean>
+		</constructor-arg>
+	</bean>
+
 </beans>
